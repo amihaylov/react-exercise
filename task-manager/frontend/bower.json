@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "homepage": "",
+  "authors": [
+    "Tonko"
+  ],
+  "description": "Frontend for the task-manager",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^0.14.0",
+    "bootstrap": "^3.3.5",
+    "lodash": "^3.10.1",
+    "jquery": "^2.1.4"
+  }
+}

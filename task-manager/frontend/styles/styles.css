@@ -1,0 +1,7 @@
+/* Centering content via flexbox */
+.row-ver-centered {
+  display: flex;
+  justify-content: center; }
+
+.col-ver-centered {
+  align-self: center; }
