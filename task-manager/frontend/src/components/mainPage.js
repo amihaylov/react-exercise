@@ -4,18 +4,19 @@ var React = require('react'),
 
 var MainPage = React.createClass({
 	loadDataFromServer: function() {
-		var xhr = new XMLHttpRequest;
-		xhr.open("GET", this.props.url + '/lists');
+		var self = this;
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', this.props.url + '/lists', true);
 		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				this.setState({data: JSON.parse(xhr.responseText)});
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				self.setState({data: JSON.parse(xhr.responseText)});
 			}
-			else if(xhr.status != 200){
+			else if (xhr.status !== 200) {
 				alert('Request failed.  Returned status of ' + xhr.status);
-				console.log('Ready state is '+xhr.readyState);
+				console.log('Ready state is ' + xhr.readyState);
 			}
-			xhr.send();
-		}
+		};
+		xhr.send();
 	},
 	getInitialState: function() {
 		return {data: []};
@@ -25,9 +26,9 @@ var MainPage = React.createClass({
 	},
 	render: function() {
 		return (
-			<ListFrame data={this.state.data} />
+			<ListFrame data={this.state.data} url={this.props.url + '/lists/'}/>
 		);
-	}
+	},
 });
 
 module.exports = MainPage;

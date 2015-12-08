@@ -36,4 +36,4 @@ var data = [
   }
 ];
 
-ReactDOM.render(<MainPage url="http://localhost:7171" />, document.getElementById('app'));
+ReactDOM.render(<MainPage url="http://localhost:7171"/>, document.getElementById('app'));
