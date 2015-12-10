@@ -4,7 +4,6 @@ var listsCtrl = require('../controllers/listsCtrl');
 
 // middleware specific to this router
 router.use(function timeLog(req, res, next) {
-	console.log('Called lists.js at: ', Date.now());
 	next();
 });
 
@@ -21,7 +20,6 @@ router.route('/:lname')
 .all(function(req, res, next) {
 	// runs for all HTTP verbs first
 	// think of it as route specific middleware!
-	console.log("Running specific lists routes...");
 	next();
 })
 .get(function(req, res, next) {
@@ -31,6 +29,7 @@ router.route('/:lname')
 	next(new Error('Not implemented, use POST /, to create a list.'));
 })
 .put(function(req, res, next) {
+	console.log(req.body);
 	return listsCtrl.update(req, res);
 })
 .delete(function(req, res, next) {

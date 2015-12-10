@@ -2,7 +2,8 @@
 var React = require('react'),
 	Button = require('react-bootstrap').Button,
 	List = require('./list'),
-	Popup = require('./popup');
+	Popup = require('./popup'),
+	Actions = require('../api/actions');
 
 var ListFrame = React.createClass({
 	getInitialState: function() {
@@ -11,8 +12,18 @@ var ListFrame = React.createClass({
 	close: function() {
 		this.setState({ showModal: false });
 	},
-	open: function() {
-		this.setState({ showModal: true });
+	// Setting concrete strategy, see actions.js
+	openAddList: function() {
+		this.setState({ showModal: true, method: 'addItem' });
+	},
+	// Strategy handler
+	handlePopup: function(data) {
+		var item = {name: data.text};
+		if (Actions[this.state.method]) {
+			Actions[this.state.method](this.props.url, item);
+		} else {
+			console.log('Strategy ' + this.state.method + ' not yet implemented!');
+		}
 	},
 	render: function() {
 		var self = this;
@@ -28,10 +39,11 @@ var ListFrame = React.createClass({
 		return (
 			<div className="container">
 				{listNodes}
-				<Button bsStyle="info">
+				<Button bsStyle="info" onClick={this.openAddList}>
 					<i className="fa fa-plus"></i><span>Add TODO List</span>
 				</Button>
-				<Popup showModal={this.state.showModal} close={this.close} name=""/>
+				<Popup showModal={this.state.showModal} close={this.close} name=""
+					onPopupSubmit={this.handlePopup}/>
 			</div>
 		);
 	},

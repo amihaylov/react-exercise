@@ -4,7 +4,6 @@ var tasksCtrl = require('../controllers/tasksCtrl');
 
 // middleware specific to this router
 router.use(function timeLog(req, res, next) {
-	console.log('Called tasks.js at: ', Date.now());
 	next();
 });
 // define the home page route
@@ -26,7 +25,6 @@ router.route('/:tname')
 .all(function(req, res, next) {
 	// runs for all HTTP verbs first
 	// think of it as route specific middleware!
-	console.log("Running specific tasks routes...")
 	next();
 })
 .get(function(req, res, next) {

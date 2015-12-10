@@ -1,7 +1,8 @@
 'use strict';
 var React = require('react'),
 	Button = require('react-bootstrap').Button,
-	Popup = require('./popup');
+	Popup = require('./popup'),
+	Actions = require('../api/actions');
 
 var Todo = React.createClass({
 	getInitialState: function() {
@@ -13,35 +14,25 @@ var Todo = React.createClass({
 	open: function() {
 		this.setState({ showModal: true });
 	},
-	handleTodoEdit: function(text) {
-		var todo = {name: text};
-		var xhr = new XMLHttpRequest();
-		xhr.open('PUT', this.props.url + this.props.name, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				alert(xhr.responseText);
-			}
-			else if (xhr.status !== 200) {
-				alert('Request failed.  Returned status of ' + xhr.status);
-				console.log('Ready state is ' + xhr.readyState);
-			}
-		};
-		xhr.send(JSON.stringify(todo));
+	// We dont need strategy for deleting lists as we arent reusing components with it
+	delTodo: function() {
+		Actions.deleteItem(this.props.url + this.props.name);
 	},
-	handleTodoDelete: function() {
-		var xhr = new XMLHttpRequest();
-		xhr.open('DELETE', this.props.url + this.props.name, true);
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				alert(xhr.responseText);
-			}
-			else if (xhr.status !== 200) {
-				alert('Request failed.  Returned status of ' + xhr.status);
-				console.log('Ready state is ' + xhr.readyState);
-			}
-		};
-		xhr.send();
+	// Setting different strategies, should be listed in actions.js
+	// this.state.stUrl is set here and used in handler so we can extend
+	// safely the handler
+	openEditTodo: function() {
+		this.setState({ showModal: true, method: 'editItem',
+			stUrl: this.props.url + this.props.name});
+	},
+	// Strategy handler
+	handlePopup: function(data) {
+		var item = {name: data.text};
+		if (Actions[this.state.method]) {
+			Actions[this.state.method](this.state.stUrl, item);
+		} else {
+			console.log('Strategy ' + this.state.method + ' not yet implemented!');
+		}
 	},
 	render: function() {
 		return (
@@ -56,16 +47,16 @@ var Todo = React.createClass({
 				</div>
 				<div className="col col-md-2">
 					<span>
-						<Button onClick={this.open}>
+						<Button onClick={this.openEditTodo}>
 							<i className="fa fa-pencil fa-lg"></i>
 						</Button>
-						<Button onClick={this.handleTodoDelete}>
+						<Button onClick={this.delTodo}>
 							<i className="fa fa-trash fa-lg"></i>
 						</Button>
 					</span>
 				</div>
 				<Popup showModal={this.state.showModal} close={this.close}
-						name={this.props.name} onPopupSubmit={this.handleTodoEdit}/>
+						name={this.props.name} onPopupSubmit={this.handlePopup}/>
 			</div>
 		);
 	},

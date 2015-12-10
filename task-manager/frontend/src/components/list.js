@@ -2,7 +2,8 @@
 var React = require('react'),
 	Button = require('react-bootstrap').Button,
 	Popup = require('./popup'),
-	Todo = require('./todo');
+	Todo = require('./todo'),
+	Actions = require('../api/actions');
 
 var List = React.createClass({
 	getInitialState: function() {
@@ -12,24 +13,29 @@ var List = React.createClass({
 	close: function() {
 		this.setState({ showModal: false });
 	},
-	open: function() {
-		this.setState({ showModal: true });
+	// We dont need strategy for deleting lists as we arent reusing components (Popup) with it
+	delList: function() {
+		Actions.deleteItem(this.props.url + this.props.name);
 	},
-	handleTodoAdd: function(text) {
-		var todo = {name: text};
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', this.props.url + this.props.name);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				alert(xhr.responseText);
-			}
-			else if (xhr.status !== 200) {
-				alert('Request failed.  Returned status of ' + xhr.status);
-				console.log('Ready state is ' + xhr.readyState);
-			}
-		};
-		xhr.send(JSON.stringify(todo));
+	// Setting different strategies, should be listed in actions.js
+	// this.state.stUrl is set here and used in handler so we can extend
+	// safely the handler
+	openEditList: function() {
+		this.setState({ showModal: true, method: 'editItem',
+			stUrl: this.props.url + this.props.name});
+	},
+	openAddTodo: function() {
+		this.setState({ showModal: true, method: 'addItem',
+			stUrl: this.props.url + this.props.name + '/tasks/' });
+	},
+	// Strategy handler
+	handlePopup: function(data) {
+		var item = {name: data.text};
+		if (Actions[this.state.method]) {
+			Actions[this.state.method](this.state.stUrl, item);
+		} else {
+			console.log('Strategy ' + this.state.method + ' not yet implemented!');
+		}
 	},
 	render: function() {
 		var self = this;
@@ -56,8 +62,12 @@ var List = React.createClass({
 							</div>
 							<div className="col col-md-2 col-ver-centered">
 								<span>
-									<i className="fa fa-pencil fa-lg"></i>
-									<i className="fa fa-trash fa-lg"></i>
+									<Button onClick={this.openEditList}>
+										<i className="fa fa-pencil fa-lg"></i>
+									</Button>
+									<Button onClick={this.delList}>
+										<i className="fa fa-trash fa-lg"></i>
+									</Button>
 								</span>
 							</div>
 						</div>
@@ -69,7 +79,7 @@ var List = React.createClass({
 								<input type="text" />
 							</div>
 							<div className="col col-md-2 col-ver-centered">
-								<Button bsStyle="success" onClick={this.open}>
+								<Button bsStyle="success" onClick={this.openAddTodo}>
 									Add Task</Button>
 							</div>
 						</div>
@@ -79,7 +89,7 @@ var List = React.createClass({
 					{todoNodes}
 				</div>
 					<Popup showModal={this.state.showModal} close={this.close}
-						name={this.props.name} onPopupSubmit={this.handleTodoAdd}/>
+						name={this.props.name} onPopupSubmit={this.handlePopup}/>
 			</div>
 		);
 	},

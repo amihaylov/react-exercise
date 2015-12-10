@@ -1,4 +1,14 @@
 var ListModel = require('../models/listsModel');
+var _ = require('lodash');
+
+// Util function to check for %20 in params
+// and convert back to empty spaces
+var convertParams = function(str) {
+	if (_.contains(str,'%20')) {
+		return str.split('%20').join(' ');
+	}
+	return str;
+};
 
 exports.getAll = function(req, res) {
 	var query = ListModel.find().exec(function(err, results) {
@@ -27,8 +37,7 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	
-	var name = req.params.lname,
+	var name = convertParams(req.params.lname),
 	// Updating by param, matching name
 		condition = {
 			name: name
@@ -53,7 +62,7 @@ exports.update = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-	var name = req.params.lname,
+	var name = convertParams(req.params.lname),
 	// Updating by param, matching name
 		condition = {
 		name: name

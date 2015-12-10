@@ -1,6 +1,15 @@
 var ListModel = require('../models/listsModel');
 var _ = require('lodash');
 
+// Util function to check for %20 in params
+// and convert back to empty spaces
+var convertParams = function(str) {
+	if (_.contains(str,'%20')) {
+		return str.split('%20').join(' ');
+	}
+	return str;
+};
+
 exports.create = function(req, res) {
 	var task = {
 		name: req.body.name,
@@ -8,7 +17,7 @@ exports.create = function(req, res) {
 		deadLine: req.body.deadLine
 	};
 
-	ListModel.findOne({name: req.params.lname}, function(err, list) {
+	ListModel.findOne({name: convertParams(req.params.lname)}, function(err, list) {
 		if (err) {
 			res.status(500).send('Internal server error, could not open list! ', err);
 		} else {
@@ -26,14 +35,13 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	
 	var task = {
 		name: req.body.name,
 		done: req.body.done
 		//deadLine: req.body.deadLine
 	},
-		listName = req.params.lname,
-		taskName = req.params.tname,
+		listName = convertParams(req.params.lname),
+		taskName = convertParams(req.params.tname),
 
 	// Using more Mongodb approach via $set directive and db.collection.update()
 		set = {};
@@ -61,16 +69,17 @@ exports.update = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-	ListModel.findOne({name: req.params.lname}, function(err, list) {
+	ListModel.findOne({name: convertParams(req.params.lname)}, function(err, list) {
 		if (err) {
 			res.status(500).send('Internal server error, could not open list! ', err);
 		} else {
 
 			// Get index of concrete task, via task name
-			var taskIndex = _.findIndex(list.tasks, function(n)
-				{ return n.name === req.params.tname;})
-			list.tasks.slice(taskIndex, 1);
+			var taskIndex = _.findIndex(list.tasks, function(n) {
+				return n.name === convertParams(req.params.tname);
+			});
 
+			list.tasks.splice(taskIndex, 1);
 			list.save(function (err) {
 				if (err) {
 					console.error(err);
