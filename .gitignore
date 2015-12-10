@@ -20,10 +20,13 @@ build/Release
 node_modules
 #libs
 libs
+# Compiled file directories
+dist
 #hidden files and directories
 .*
-#except gitignore itself
+#except gitignore itself and eslint config
 !.gitignore
+!.eslintrc
 #homework and note text files
 *.txt
 #bower stuff
