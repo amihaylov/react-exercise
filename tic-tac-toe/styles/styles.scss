@@ -1,0 +1,64 @@
+$custGrey: #888;
+$cellSize: 10rem;
+
+body {
+	background-color: #aff;
+}
+
+.grid {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 60px;
+}
+
+.cell {
+	display: inline-block;
+	width: $cellSize;
+	height: $cellSize;
+	border-radius: $cellSize/5;
+	opacity: .75;
+	background-color:$custGrey;
+	box-shadow: 2px 2px 0 $custGrey;
+	transition: all .2s;
+	cursor: pointer;
+
+	.cell-p1 {
+		background-color: white;
+		cursor: default;
+	}
+	.cell-p2 {
+		background-color: black;
+		cursor: default;
+	}
+}
+
+.announcement {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: $cellSize;
+	bottom: $cellSize;
+	left: $cellSize*2;
+	right: $cellSize*2;
+	border-radius: $cellSize;
+	background-color: rgba(136, 136 , 136,.8);
+	text-align: center;
+	font-size: 2em;
+	color: white;
+
+	button {
+		height: $cellSize/2;
+		width: $cellSize;
+		font-size: .5em;
+		font-weight: 700;
+		border: none;
+		border-radius: $cellSize/10;
+		background-color: white;
+		color: black;
+	}
+
+}
