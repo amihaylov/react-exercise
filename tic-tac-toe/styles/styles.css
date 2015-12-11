@@ -1,0 +1,51 @@
+body {
+  background-color: #aff; }
+
+.grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px; }
+
+.cell {
+  display: inline-block;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 2rem;
+  opacity: .75;
+  background-color: #888;
+  box-shadow: 2px 2px 0 #888;
+  transition: all .2s;
+  cursor: pointer; }
+  .cell .cell-p1 {
+    background-color: white;
+    cursor: default; }
+  .cell .cell-p2 {
+    background-color: black;
+    cursor: default; }
+
+.announcement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10rem;
+  bottom: 10rem;
+  left: 20rem;
+  right: 20rem;
+  border-radius: 10rem;
+  background-color: rgba(136, 136, 136, 0.8);
+  text-align: center;
+  font-size: 2em;
+  color: white; }
+  .announcement button {
+    height: 5rem;
+    width: 10rem;
+    font-size: .5em;
+    font-weight: 700;
+    border: none;
+    border-radius: 1rem;
+    background-color: white;
+    color: black; }
