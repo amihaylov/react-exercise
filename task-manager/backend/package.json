@@ -15,5 +15,5 @@
     "start": "nodemon app.js"
   },
   "author": "Tonko",
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }

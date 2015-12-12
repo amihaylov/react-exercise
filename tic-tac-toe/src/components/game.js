@@ -36,7 +36,7 @@ var Game = React.createClass({
 		if (isEmpty) {
 			this.move(x, y, this.state.player)
 			.then(this.setState({player: this.nextPlayer()}))
-			.catch(console.log('Game over!'));
+			.catch(console.log('No winner yet!'));
 		}
 	},
 	// Resets the board for a new game
@@ -53,13 +53,14 @@ var Game = React.createClass({
 			announcement = (
 				<div className='announcement'>
 					<p>{msg}</p>
-					<button onClick={this.reset.bind(this)}>
+					<button onClick={this.reset}>
 					Reset</button>
 				</div>
 			);
 		}
 
-		var grid = this.board.map(function(row, rowIdx) {
+		var self = this;
+		var grid = this.board.board.map(function(row, rowIdx) {
 			var cells = row.map(function(cell, cellIdx) {
 				var classStr = {
 						0: 'empty-cell',
@@ -69,8 +70,8 @@ var Game = React.createClass({
 					coords = rowIdx + '_' + cellIdx,
 					clickHandler;
 
-				if (!this.state.freezeBoard) {
-					clickHandler = this.playerMove.bind(this);
+				if (!self.state.freezeBoard) {
+					clickHandler = self.playerMove;
 				}
 
 				return (<div className={classStr[cell]} key={cellIdx}

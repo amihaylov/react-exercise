@@ -1,14 +1,20 @@
 body {
-  background-color: #aff; }
+  background-color: #aff;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  margin: 0; }
+
+#app {
+  align-self: center; }
 
 .grid {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 60px; }
+  align-items: center; }
 
-.cell {
+.empty-cell, .player1, .player2 {
   display: inline-block;
   width: 10rem;
   height: 10rem;
@@ -18,12 +24,14 @@ body {
   box-shadow: 2px 2px 0 #888;
   transition: all .2s;
   cursor: pointer; }
-  .cell .cell-p1 {
-    background-color: white;
-    cursor: default; }
-  .cell .cell-p2 {
-    background-color: black;
-    cursor: default; }
+
+.player1 {
+  background-color: white;
+  cursor: default; }
+
+.player2 {
+  background-color: black;
+  cursor: default; }
 
 .announcement {
   display: flex;
@@ -31,15 +39,17 @@ body {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 10rem;
-  bottom: 10rem;
-  left: 20rem;
-  right: 20rem;
+  top: 5rem;
+  bottom: 5rem;
+  left: 5rem;
+  right: 5rem;
   border-radius: 10rem;
   background-color: rgba(136, 136, 136, 0.8);
   text-align: center;
   font-size: 2em;
-  color: white; }
+  color: white;
+  width: 20rem;
+  height: 20rem; }
   .announcement button {
     height: 5rem;
     width: 10rem;
