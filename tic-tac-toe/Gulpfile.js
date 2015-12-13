@@ -39,10 +39,12 @@ var config = {
 		dist: './dist',
 		js: './src/**/*.js',
 		mainJs: './src/main.js',
+		mainTest: './tests/game-test.js',
+		distTest: '__tests__'
 	},
 };
 
-gulp.task('browserify', function() {
+gulp.task('build', function() {
 	browserify(config.paths.mainJs)
 		.transform(babelify, {presets: ['es2015', 'react']})
 		.transform(reactify)
@@ -53,7 +55,30 @@ gulp.task('browserify', function() {
 		.pipe(connect.reload());
 });
 
+gulp.task('build-test', function() {
+	browserify(config.paths.mainTest)
+		.transform(babelify, {presets: ['es2015', 'react']})
+		.transform(reactify)
+		.bundle()
+		.on('error', console.error.bind(console))
+		.pipe(source('bundle.js'))
+		.pipe(gulp.dest(config.paths.distTest))
+		.pipe(connect.reload());
+});
+
+
 gulp.task('watch', function() {
 	gulp.watch([config.paths.js,'./*.js'], ['browserify']);
 	gulp.watch('styles/*.scss', ['sass']);
+});
+
+gulp.task('connect', function() {
+	connect.server({
+		root: ['./'],
+		port: 9003,
+		livereload: true,
+		open: {
+			browser:  'Google Chrome', //'chrome'
+		},
+	});
 });
