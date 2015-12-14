@@ -4,7 +4,8 @@
   "description": "Tic tac toe game with React",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "doc": "./node_modules/.bin/jsdoc src/components/game.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json -t ./node_modules/ink-docstrap/template"
   },
   "author": "Tonko",
   "license": "GPL-3.0",
@@ -26,9 +27,11 @@
     "gulp-eslint": "^1.0.0",
     "gulp-open": "^1.0.0",
     "gulp-sass": "^2.1.0",
+    "ink-docstrap": "^1.0.2",
     "jasmine-core": "^2.4.1",
     "jest": "^0.1.40",
     "jest-cli": "*",
+    "jsdoc": "^3.4.0",
     "react-addons-test-utils": "^0.14.3",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
@@ -39,7 +42,7 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/node_modules/"
-      ],
+    ],
     "unmockedModulePathPatterns": [
       "node_modules/react",
       "node_modules/react-dom",
