@@ -6,12 +6,15 @@ var browserify = require('browserify'), // Bundles JS
 	reactify = require('reactify'), // Transforms React JSX to JS
 	source = require('vinyl-source-stream');
 
-//TODO Sass
-// gulp.task('sass', function() {
-//	 return sass('./styles/styles.scss')
-//		 .on('error', sass.logError)
-//		 .pipe(gulp.dest('./styles/'));
-// });
+var config = {
+	paths: {
+		dist: './dist',
+		js: './src/**/*.js',
+		mainJs: './src/main.js',
+		mainTest: './tests/game-test.js',
+		distTest: '__tests__',
+	},
+};
 
 gulp.task('sass', function() {
 	gulp.src('styles/*.scss')
@@ -31,20 +34,7 @@ gulp.task('connect', function() {
 
 gulp.task('default', ['connect', 'watch']);
 
-// In case we want to use browserify
-// main.js and all js files should use AMD or Commonjs style modules
-
-var config = {
-	paths: {
-		dist: './dist',
-		js: './src/**/*.js',
-		mainJs: './src/main.js',
-		mainTest: './tests/game-test.js',
-		distTest: '__tests__'
-	},
-};
-
-gulp.task('build', function() {
+gulp.task('build-js', function() {
 	browserify(config.paths.mainJs)
 		.transform(babelify, {presets: ['es2015', 'react']})
 		.transform(reactify)
@@ -66,9 +56,10 @@ gulp.task('build-test', function() {
 		.pipe(connect.reload());
 });
 
+gulp.task('build', ['sass', 'build-js']);
 
 gulp.task('watch', function() {
-	gulp.watch([config.paths.js,'./*.js'], ['browserify']);
+	gulp.watch([config.paths.js,'./*.js'], ['build-js']);
 	gulp.watch('styles/*.scss', ['sass']);
 });
 
