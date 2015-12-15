@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "doc": "./node_modules/.bin/jsdoc src/components/game.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json -t ./node_modules/ink-docstrap/template"
   },
   "author": "Tonko",
   "license": "GPL-3.0",
@@ -27,6 +26,7 @@
     "gulp-eslint": "^1.0.0",
     "gulp-open": "^1.0.0",
     "gulp-sass": "^2.1.0",
+    "gulp-shell": "^0.5.1",
     "ink-docstrap": "^1.0.2",
     "jasmine-core": "^2.4.1",
     "jest": "^0.1.40",

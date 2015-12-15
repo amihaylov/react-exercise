@@ -3,6 +3,7 @@ var browserify = require('browserify'), // Bundles JS
 	gulp = require('gulp'),
 	connect = require('gulp-connect'),
 	sass = require('gulp-sass'),
+	shell = require('gulp-shell'),
 	reactify = require('reactify'), // Transforms React JSX to JS
 	source = require('vinyl-source-stream');
 
@@ -28,9 +29,10 @@ gulp.task('sass', function() {
 });
 
 
-gulp.task('connect', function() {
-	connect.server();
-});
+gulp.task('doc', shell.task([
+	'echo "\033[0;36m Generates js documentation using jsdoc and docstrap.\033[0m"',
+	'./node_modules/.bin/jsdoc src/components/*.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json -t ./node_modules/ink-docstrap/template',
+]));
 
 gulp.task('default', ['connect', 'watch']);
 

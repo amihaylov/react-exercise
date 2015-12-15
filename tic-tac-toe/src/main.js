@@ -5,6 +5,6 @@
 */
 var React = require('react'),
 	ReactDOM = require('react-dom'),
-	Game = require('./components/game');
+	Selector = require('./components/selector');
 
-ReactDOM.render(<Game size={3} />, document.getElementById('app'));
+ReactDOM.render(<Selector />, document.getElementById('selector'));
