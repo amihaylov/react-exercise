@@ -104,7 +104,7 @@ var Game = React.createClass({
 
 		if (this.state.winner) {
 			var msg = this.state.winner > 2 ? 'It is a tie' : 'Player ' +
-			this.state.winner + ' wins!';
+			this.props.playerNames[this.state.winner] + ' wins!';
 			announcement = (
 				<div className='announcement'>
 					<p>{msg}</p>

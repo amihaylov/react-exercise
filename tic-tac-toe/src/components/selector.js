@@ -5,7 +5,7 @@ var React = require('react'),
 * @constructor
 * @name Selector
 * @description
-* Initializator component, receives a value from a select input and initializes the Game
+* Initializator component, receives a value from a select input, player names and initializes the Game
 */
 var Selector = React.createClass({
 	/** @method
@@ -16,8 +16,11 @@ var Selector = React.createClass({
 	* Also removes the selector.
 	*/
 	handleSelect: function(e) {
-		var options = e.target.options,
+		var playerNames = [],
+			options = e.target.options,
 			value;
+		playerNames[1] = this.refs.player1.value.trim() || 'Player 1';
+		playerNames[2] = this.refs.player2.value.trim() || 'Player 2';
 		for (var i = 0, l = options.length; i < l; i++) {
 			if (options[i].selected) {
 				value = options[i].value;
@@ -25,7 +28,7 @@ var Selector = React.createClass({
 		}
 		value = parseInt(value, 10);
 		try {
-			ReactDOM.render(<Game size={value} />, document.getElementById('app'));
+			ReactDOM.render(<Game size={value} playerNames={playerNames}/>, document.getElementById('app'));
 			document.getElementById('selector').remove();
 		} catch (err) {
 			console.error(err);
@@ -47,10 +50,14 @@ var Selector = React.createClass({
 		});
 
 		return (
-			<select onChange={this.handleSelect}>
-				<option defaultValue={''} disabled selected style={{display: 'none'}}>Select board size</option>
-				{optionsNodes}
-			</select>
+			<div>
+				<input type="text" placeholder="Player 1 Name" ref="player1" />
+				<input type="text" placeholder="Player 2 Name" ref="player2" />
+				<select onChange={this.handleSelect}>
+					<option defaultValue={''} disabled selected style={{display: 'none'}}>Select board size</option>
+					{optionsNodes}
+				</select>
+			</div>
 			);
 	},
 });
