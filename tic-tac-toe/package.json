@@ -4,7 +4,7 @@
   "description": "Tic tac toe game with React",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest"
   },
   "author": "Tonko",
   "license": "GPL-3.0",
