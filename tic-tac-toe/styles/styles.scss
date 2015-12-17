@@ -49,10 +49,10 @@ body {
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	top: $cellSize/2;
-	bottom: $cellSize/2;
-	left: $cellSize/2;
-	right: $cellSize/2;
+	top: calc(50% - #{$cellSize});
+	bottom: calc(50% - #{$cellSize});
+	left: calc(50% - #{$cellSize});
+	right: calc(50% - #{$cellSize});
 	border-radius: $cellSize;
 	background-color: rgba(136, 136 , 136,.8);
 	text-align: center;

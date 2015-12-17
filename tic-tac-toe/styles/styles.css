@@ -39,10 +39,10 @@ body {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 5rem;
-  bottom: 5rem;
-  left: 5rem;
-  right: 5rem;
+  top: calc(50% - 10rem);
+  bottom: calc(50% - 10rem);
+  left: calc(50% - 10rem);
+  right: calc(50% - 10rem);
   border-radius: 10rem;
   background-color: rgba(136, 136, 136, 0.8);
   text-align: center;

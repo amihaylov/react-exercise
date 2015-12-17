@@ -26,9 +26,12 @@
     "gulp-eslint": "^1.0.0",
     "gulp-open": "^1.0.0",
     "gulp-sass": "^2.1.0",
+    "gulp-shell": "^0.5.1",
+    "ink-docstrap": "^1.0.2",
     "jasmine-core": "^2.4.1",
     "jest": "^0.1.40",
     "jest-cli": "*",
+    "jsdoc": "^3.4.0",
     "react-addons-test-utils": "^0.14.3",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
@@ -39,7 +42,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/node_modules/"
-      ],
+    ],
+    "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "unmockedModulePathPatterns": [
       "node_modules/react",
       "node_modules/react-dom",

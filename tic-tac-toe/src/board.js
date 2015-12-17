@@ -93,7 +93,6 @@ function Board(height) {
 		if (tie) {
 			winner = 3;
 		}
-		
 		return winner;
 	};
 }

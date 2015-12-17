@@ -3,15 +3,19 @@ var browserify = require('browserify'), // Bundles JS
 	gulp = require('gulp'),
 	connect = require('gulp-connect'),
 	sass = require('gulp-sass'),
+	shell = require('gulp-shell'),
 	reactify = require('reactify'), // Transforms React JSX to JS
 	source = require('vinyl-source-stream');
 
-//TODO Sass
-// gulp.task('sass', function() {
-//	 return sass('./styles/styles.scss')
-//		 .on('error', sass.logError)
-//		 .pipe(gulp.dest('./styles/'));
-// });
+var config = {
+	paths: {
+		dist: './dist',
+		js: './src/**/*.js',
+		mainJs: './src/main.js',
+		mainTest: './tests/game-test.js',
+		distTest: '__tests__',
+	},
+};
 
 gulp.task('sass', function() {
 	gulp.src('styles/*.scss')
@@ -25,26 +29,14 @@ gulp.task('sass', function() {
 });
 
 
-gulp.task('connect', function() {
-	connect.server();
-});
+gulp.task('doc', shell.task([
+	'echo "\033[0;36m Generates js documentation using jsdoc and docstrap.\033[0m"',
+	'./node_modules/.bin/jsdoc src/components/*.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json -t ./node_modules/ink-docstrap/template',
+]));
 
 gulp.task('default', ['connect', 'watch']);
 
-// In case we want to use browserify
-// main.js and all js files should use AMD or Commonjs style modules
-
-var config = {
-	paths: {
-		dist: './dist',
-		js: './src/**/*.js',
-		mainJs: './src/main.js',
-		mainTest: './tests/game-test.js',
-		distTest: '__tests__'
-	},
-};
-
-gulp.task('build', function() {
+gulp.task('build-js', function() {
 	browserify(config.paths.mainJs)
 		.transform(babelify, {presets: ['es2015', 'react']})
 		.transform(reactify)
@@ -66,9 +58,10 @@ gulp.task('build-test', function() {
 		.pipe(connect.reload());
 });
 
+gulp.task('build', ['sass', 'build-js']);
 
 gulp.task('watch', function() {
-	gulp.watch([config.paths.js,'./*.js'], ['browserify']);
+	gulp.watch([config.paths.js,'./*.js'], ['build-js']);
 	gulp.watch('styles/*.scss', ['sass']);
 });
 
