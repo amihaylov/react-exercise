@@ -14,7 +14,7 @@ exports.create = function(req, res) {
 	var task = {
 		name: req.body.name,
 		done: req.body.done,
-		deadLine: req.body.deadLine
+		deadline: req.body.deadLine
 	};
 
 	ListModel.findOne({name: convertParams(req.params.lname)}, function(err, list) {
@@ -35,19 +35,14 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	var task = {
-		name: req.body.name,
-		done: req.body.done
-		//deadLine: req.body.deadLine
-	},
-		listName = convertParams(req.params.lname),
+	var listName = convertParams(req.params.lname),
 		taskName = convertParams(req.params.tname),
 
 	// Using more Mongodb approach via $set directive and db.collection.update()
 		set = {};
-	for (var field in task) {
-		if (task.hasOwnProperty(field)) {
-			set['tasks.$.' + field] = task[field];
+	for (var prop in req.body) {
+		if (req.body.hasOwnProperty(prop)) {
+			set['tasks.$.' + prop] = req.body[prop];
 		}
 	}
 

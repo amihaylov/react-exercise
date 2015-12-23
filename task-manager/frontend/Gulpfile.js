@@ -29,7 +29,7 @@ gulp.task('connect', function() {
     connect.server();
 });
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('default', ['build', 'connect', 'watch']);
 
 // In case we want to use browserify
 // main.js and all js files should use AMD or Commonjs style modules
@@ -57,3 +57,5 @@ gulp.task('watch', function() {
     gulp.watch([config.paths.js,'./*.js'], ['browserify']);
     gulp.watch('styles/*.scss', ['sass']);
 });
+
+gulp.task('build', ['sass', 'browserify']);
