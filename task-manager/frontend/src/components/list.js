@@ -76,7 +76,6 @@ var List = React.createClass({
 								<i className="fa fa-plus"></i>
 							</div>
 							<div className="col col-md-9 col-ver-centered">
-							// Here can be input field as on screenshot, I've done it with Popup
 							</div>
 							<div className="col col-md-2 col-ver-centered">
 								<Button bsStyle="success" onClick={this.openAddTodo}>
