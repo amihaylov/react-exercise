@@ -17,8 +17,7 @@ var ListFrame = React.createClass({
 		this.setState({ showModal: true, method: 'addItem' });
 	},
 	// Strategy handler
-	handlePopup: function(data) {
-		var item = {name: data.text};
+	handlePopup: function(item) {
 		if (Actions[this.state.method]) {
 			Actions[this.state.method](this.props.url, item);
 		} else {

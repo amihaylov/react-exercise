@@ -29,8 +29,7 @@ var List = React.createClass({
 			stUrl: this.props.url + this.props.name + '/tasks/' });
 	},
 	// Strategy handler
-	handlePopup: function(data) {
-		var item = {name: data.text};
+	handlePopup: function(item) {
 		if (Actions[this.state.method]) {
 			Actions[this.state.method](this.state.stUrl, item);
 		} else {

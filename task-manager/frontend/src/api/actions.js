@@ -4,7 +4,7 @@ var AjaxAPI = require('../api/ajax');
 
 // Util method to check if url string has spaces
 var convertUrl = function(url) {
-	if (url.contains(' ')) {
+	if (url.includes(' ')) {
 		var replaceStr = '%20';
 		return url.split(' ').join(replaceStr);
 	}
@@ -35,6 +35,7 @@ var Actions = {
 		});
 	},
 	editItem: function(url, data, callBack) {
+		console.log(url,data);
 		AjaxAPI.putData(convertUrl(url), data).then(function() {
 			if (callBack) {
 				callBack(data);

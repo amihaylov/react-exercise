@@ -5,3 +5,9 @@
 
 .col-ver-centered {
   align-self: center; }
+
+.finished {
+  text-decoration: line-through; }
+
+.overdue input {
+  color: red; }

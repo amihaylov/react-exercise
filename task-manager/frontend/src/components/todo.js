@@ -4,6 +4,8 @@ var React = require('react'),
 	Popup = require('./popup'),
 	Actions = require('../api/actions');
 
+import DatePicker from './DTPicker';
+
 var Todo = React.createClass({
 	getInitialState: function() {
 		return { showModal: false };
@@ -16,9 +18,9 @@ var Todo = React.createClass({
 	close: function() {
 		this.setState({ showModal: false });
 	},
-	open: function() {
-		this.setState({ showModal: true });
-	},
+	// open: function() {
+	// 	this.setState({ showModal: true });
+	// },
 	// We dont need strategy for deleting lists as we arent reusing components with it
 	delTodo: function() {
 		Actions.deleteItem(this.props.url + this.props.name);
@@ -26,12 +28,11 @@ var Todo = React.createClass({
 	// Setting different strategies, should be listed in actions.js
 	// this.state.stUrl is set here and used in handler so we can extend
 	// safely the handler
-	openEditTodo: function(ptype) {
-		this.setState({ showModal: true, method: 'editItem', popupType: ptype});
+	openEditTodo: function() {
+		this.setState({ showModal: true, method: 'editItem',});
 	},
 	// Strategy handler
-	handlePopup: function(data) {
-		var item = {name: data.text};
+	handlePopup: function(item) {
 		if (Actions[this.state.method]) {
 			Actions[this.state.method](this.state.stUrl, item);
 		} else {
@@ -52,8 +53,8 @@ var Todo = React.createClass({
 					<input type="checkbox" onClick={this.clickCheckbox}
 					defaultChecked={this.props.done}/>
 				</div>
-				<div className="col col-md-4">
-					<input type="text" onClick={this.openEditTodo('dtpicker')}/>
+				<div className={new Date(this.props.dline) <= new Date() ? 'overdue col col-md-4' : 'col col-md-4'} >
+					<DatePicker dline={this.props.dline} onDateChange={this.handlePopup}/>
 				</div>
 				<div className="col col-md-5">
 					<span className={isDoneCSS}>
@@ -62,7 +63,7 @@ var Todo = React.createClass({
 				</div>
 				<div className="col col-md-2">
 					<span>
-						<Button onClick={this.openEditTodo('input')}>
+						<Button onClick={this.openEditTodo}>
 							<i className="fa fa-pencil fa-lg"></i>
 						</Button>
 						<Button onClick={this.delTodo}>
@@ -71,8 +72,7 @@ var Todo = React.createClass({
 					</span>
 				</div>
 				<Popup showModal={this.state.showModal} close={this.close}
-						name={this.props.name} onPopupSubmit={this.handlePopup}
-						popupType={this.state.popupType}/>
+						name={this.props.name} onPopupSubmit={this.handlePopup}/>
 			</div>
 		);
 	},

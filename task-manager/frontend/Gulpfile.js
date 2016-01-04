@@ -4,7 +4,10 @@ var browserify = require('browserify'), // Bundles JS
     connect = require('gulp-connect'),
     sass = require('gulp-sass'),
     reactify = require('reactify'), // Transforms React JSX to JS
-    source = require('vinyl-source-stream');
+    source = require('vinyl-source-stream'),
+    webpack = require('webpack'),
+    gulpWebpack = require('gulp-webpack'),
+    webpackConfig = require('./webpack.config.js');
 
 //TODO Sass
 // gulp.task('sass', function() {
@@ -26,7 +29,7 @@ gulp.task('sass', function() {
 
 
 gulp.task('connect', function() {
-    connect.server();
+    return connect.server();
 });
 
 gulp.task('default', ['build', 'connect', 'watch']);
@@ -51,6 +54,13 @@ gulp.task('browserify', function() {
         .pipe(source('bundle.js'))
         .pipe(gulp.dest(config.paths.dist + '/scripts'))
         .pipe(connect.reload());
+});
+
+gulp.task('webpack', function() {
+	return gulp.src('src/main.js')
+	.pipe(gulpWebpack(webpackConfig, webpack))
+	.pipe(gulp.dest(config.paths.dist))
+	.pipe(connect.reload());
 });
 
 gulp.task('watch', function() {
